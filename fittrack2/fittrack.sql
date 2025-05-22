@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 21, 2025 alle 15:12
+-- Creato il: Mag 22, 2025 alle 17:11
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -38,6 +38,13 @@ CREATE TABLE `attivita` (
   `descrizione` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `attivita`
+--
+
+INSERT INTO `attivita` (`id`, `id_utente`, `tipo_attivita`, `durata`, `distanza`, `calorie`, `data_attivita`, `descrizione`) VALUES
+(2, 1, 'Corsa', 200, 20.00, 2008, '2025-05-22 16:40:00', '');
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +58,56 @@ CREATE TABLE `impostazioni` (
   `tema_scoruro` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `impostazioni`
+--
+
+INSERT INTO `impostazioni` (`id`, `id_utente`, `notifica_email`, `tema_scoruro`) VALUES
+(1, 1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `impostazioni_utente`
+--
+
+CREATE TABLE `impostazioni_utente` (
+  `id` int(11) NOT NULL,
+  `id_utente` int(11) DEFAULT NULL,
+  `notifiche_email` tinyint(1) DEFAULT 0,
+  `notifiche_promemoria` tinyint(1) DEFAULT 0,
+  `notifiche_obiettivi` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `impostazioni_utente`
+--
+
+INSERT INTO `impostazioni_utente` (`id`, `id_utente`, `notifiche_email`, `notifiche_promemoria`, `notifiche_obiettivi`) VALUES
+(1, 1, 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `obiettivi`
+--
+
+CREATE TABLE `obiettivi` (
+  `id` int(11) NOT NULL,
+  `id_utente` int(11) DEFAULT NULL,
+  `obiettivo_peso` decimal(5,2) DEFAULT NULL,
+  `obiettivo_calorie` int(11) DEFAULT NULL,
+  `obiettivo_passi` int(11) DEFAULT NULL,
+  `obiettivo_attivita` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `obiettivi`
+--
+
+INSERT INTO `obiettivi` (`id`, `id_utente`, `obiettivo_peso`, `obiettivo_calorie`, `obiettivo_passi`, `obiettivo_attivita`) VALUES
+(1, 1, 44.00, 2000, 10000, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +118,8 @@ CREATE TABLE `utenti` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
+  `altezza` decimal(5,2) DEFAULT NULL,
+  `peso` decimal(5,2) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `nome` varchar(50) DEFAULT NULL,
   `cognome` varchar(50) DEFAULT NULL,
@@ -73,8 +132,8 @@ CREATE TABLE `utenti` (
 -- Dump dei dati per la tabella `utenti`
 --
 
-INSERT INTO `utenti` (`id`, `username`, `email`, `password`, `nome`, `cognome`, `data_nascita`, `sesso`, `data_registrazione`) VALUES
-(1, 'admin', '', '1234', NULL, NULL, NULL, NULL, '2025-05-21 13:10:06');
+INSERT INTO `utenti` (`id`, `username`, `email`, `altezza`, `peso`, `password`, `nome`, `cognome`, `data_nascita`, `sesso`, `data_registrazione`) VALUES
+(1, 'admin', 'pipo@gmail.com', 160.00, 60.00, '$2y$10$7Wuc/zxmzN/XGbKQkGwnLu/dNzK2kQSnyz93NluYcLLGqW8lsn8G.', 'Onofrio', 'Cutecchia', '2025-05-03', 'M', '2025-05-22 13:31:45');
 
 --
 -- Indici per le tabelle scaricate
@@ -95,6 +154,20 @@ ALTER TABLE `impostazioni`
   ADD KEY `id_utente` (`id_utente`);
 
 --
+-- Indici per le tabelle `impostazioni_utente`
+--
+ALTER TABLE `impostazioni_utente`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_utente` (`id_utente`);
+
+--
+-- Indici per le tabelle `obiettivi`
+--
+ALTER TABLE `obiettivi`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_utente` (`id_utente`);
+
+--
 -- Indici per le tabelle `utenti`
 --
 ALTER TABLE `utenti`
@@ -110,19 +183,31 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT per la tabella `attivita`
 --
 ALTER TABLE `attivita`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `impostazioni`
 --
 ALTER TABLE `impostazioni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `impostazioni_utente`
+--
+ALTER TABLE `impostazioni_utente`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `obiettivi`
+--
+ALTER TABLE `obiettivi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Limiti per le tabelle scaricate
@@ -139,6 +224,18 @@ ALTER TABLE `attivita`
 --
 ALTER TABLE `impostazioni`
   ADD CONSTRAINT `impostazioni_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE;
+
+--
+-- Limiti per la tabella `impostazioni_utente`
+--
+ALTER TABLE `impostazioni_utente`
+  ADD CONSTRAINT `impostazioni_utente_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`);
+
+--
+-- Limiti per la tabella `obiettivi`
+--
+ALTER TABLE `obiettivi`
+  ADD CONSTRAINT `obiettivi_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
