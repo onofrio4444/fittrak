@@ -1,0 +1,13 @@
+creare pagine
+-calendario
+-header (per l' index.php) fatto
+-password_dimenticata
+-pagina di sincronizzazione con il dispositivo wereable fake
+-cambiare la dashboard
+-sistemare il elimina account e elimina dati
+-creare icona el sito in alto
+-cambiare il percorso quando spingo sul nome mi riprti sulla pagina index per tuttte le pagine
+- modificare il footer 
+
+creato 8:17
+index.php funziona con header.php SOLO
